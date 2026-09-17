@@ -1,0 +1,182 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f4f6f8;
+  color: #1f2933;
+}
+
+/* ---------- Layout ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #1f6feb;
+  color: #fff;
+  padding: 12px 20px;
+}
+
+.brand { font-size: 18px; font-weight: 600; }
+
+.user-box { display: flex; align-items: center; gap: 10px; }
+.user-name { font-size: 14px; }
+.role-tag {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  background: #fff;
+  padding: 8px 20px;
+  border-bottom: 1px solid #e1e5ea;
+}
+
+.nav-link {
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #445;
+  font-size: 14px;
+}
+.nav-link:hover { background: #eef2ف7; background: #eef2f7; }
+.nav-link.active { background: #1f6feb; color: #fff; }
+
+.content { padding: 20px; max-width: 1200px; margin: 0 auto; }
+
+/* ---------- Cards / forms ---------- */
+.card {
+  background: #fff;
+  border: 1px solid #e1e5ea;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+h2 { margin: 0 0 16px; font-size: 20px; }
+h3 { margin: 0 0 12px; font-size: 16px; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+label { display: block; font-size: 13px; margin-bottom: 4px; color: #52606d; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd2d9;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #1f6feb;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn:hover { opacity: 0.9; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-light { background: rgba(255,255,255,0.2); }
+.btn-grey { background: #52606d; }
+.btn-green { background: #0f9d58; }
+.btn-red { background: #d93025; }
+.btn-sm { padding: 5px 10px; font-size: 13px; }
+.btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.mt { margin-top: 12px; }
+.muted { color: #7b8794; font-size: 14px; }
+.right { text-align: right; }
+
+/* ---------- Tables ---------- */
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 9px 10px; border-bottom: 1px solid #e8ecef; text-align: left; }
+th { background: #f7f9fb; font-weight: 600; color: #52606d; }
+tbody tr:hover { background: #fafbfc; }
+
+/* ---------- Alerts ---------- */
+.alert { padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; font-size: 14px; }
+.alert-error { background: #fdecea; color: #b3261e; border: 1px solid #f5c2c0; }
+.alert-success { background: #e6f4ea; color: #1b6e3c; border: 1px solid #b7e0c4; }
+
+/* ---------- Status badges ---------- */
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #e3e8ef;
+  color: #3e4c59;
+}
+.badge-NEW, .badge-DRAFT, .badge-PENDING { background: #e3e8ef; color: #3e4c59; }
+.badge-QUOTED, .badge-SENT { background: #dbeafe; color: #1e40af; }
+.badge-WON, .badge-ACCEPTED, .badge-CONFIRMED { background: #dcfce7; color: #166534; }
+.badge-LOST, .badge-REJECTED, .badge-CANCELLED { background: #fee2e2; color: #991b1b; }
+.badge-DISPATCHED { background: #ede9fe; color: #5b21b6; }
+
+/* ---------- Stats ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.stat {
+  background: #fff;
+  border: 1px solid #e1e5ea;
+  border-radius: 8px;
+  padding: 14px;
+}
+.stat-value { font-size: 24px; font-weight: 700; color: #1f6feb; }
+.stat-label { font-size: 13px; color: #7b8794; margin-top: 2px; }
+
+/* ---------- Login ---------- */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.login-card {
+  background: #fff;
+  border: 1px solid #e1e5ea;
+  border-radius: 10px;
+  padding: 26px;
+  width: 100%;
+  max-width: 380px;
+}
+.login-card h1 { font-size: 20px; margin: 0 0 6px; }
+.login-card .field { margin-bottom: 12px; }
+.login-card .btn { width: 100%; margin-top: 6px; }
+.demo-box {
+  margin-top: 16px;
+  padding: 10px;
+  background: #f7f9fb;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #52606d;
+}
+
+@media (max-width: 600px) {
+  .content { padding: 12px; }
+  .topbar { padding: 10px 12px; }
+  .nav { padding: 8px 10px; }
+}

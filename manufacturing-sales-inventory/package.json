@@ -1,0 +1,13 @@
+{
+  "name": "manufacturing-sales-inventory",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Manufacturing Sales & Inventory Management System (B.Tech CSE project)",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "backend": "npm run dev --prefix backend",
+    "frontend": "npm run dev --prefix frontend",
+    "seed": "npm run seed --prefix backend",
+    "test": "npm test --prefix backend"
+  }
+}

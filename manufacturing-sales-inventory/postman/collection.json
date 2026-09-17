@@ -1,0 +1,328 @@
+{
+  "info": {
+    "name": "Manufacturing Sales & Inventory API",
+    "description": "REST API collection. Run 'Login as ADMIN' or 'Login as SALES_USER' first - the token is saved automatically into the {{token}} variable.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api" },
+    { "key": "token", "value": "" },
+    { "key": "quotationId", "value": "1" },
+    { "key": "salesOrderId", "value": "1" },
+    { "key": "productId", "value": "1" },
+    { "key": "customerId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login as ADMIN",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) { pm.collectionVariables.set('token', res.token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@demo.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login as SALES_USER",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) { pm.collectionVariables.set('token', res.token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"sales@demo.com\",\n  \"password\": \"Sales@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Current user (me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"company\": \"New Industries Pvt Ltd\",\n  \"contact\": \"Amit Verma\",\n  \"mobile\": \"9876501234\",\n  \"email\": \"amit@newindustries.com\",\n  \"city\": \"Nashik\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/customers", "host": ["{{baseUrl}}"], "path": ["customers"] }
+          }
+        },
+        {
+          "name": "List customers",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/customers", "host": ["{{baseUrl}}"], "path": ["customers"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products & Inventory",
+      "item": [
+        {
+          "name": "List products",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "List inventory (physical / reserved / available)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/inventory", "host": ["{{baseUrl}}"], "path": ["inventory"] }
+          }
+        },
+        {
+          "name": "Update physical stock (ADMIN only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"physicalQty\": 500\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/inventory/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "{{productId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enquiries",
+      "item": [
+        {
+          "name": "Create enquiry (SALES_USER)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"requiredDate\": \"2026-12-31\",\n  \"notes\": \"Required for plant expansion\",\n  \"items\": [\n    { \"productId\": 1, \"quantity\": 25 }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/enquiries", "host": ["{{baseUrl}}"], "path": ["enquiries"] }
+          }
+        },
+        {
+          "name": "List enquiries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/enquiries", "host": ["{{baseUrl}}"], "path": ["enquiries"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quotations",
+      "item": [
+        {
+          "name": "Create quotation (SALES_USER)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.id) { pm.collectionVariables.set('quotationId', res.data.id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"validUntil\": \"2026-12-31\",\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 10,\n      \"unitPrice\": 100,\n      \"discountPct\": 10,\n      \"gstPct\": 18\n    }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/quotations", "host": ["{{baseUrl}}"], "path": ["quotations"] },
+            "description": "10 x 100 = 1000, -10% = 900, +18% GST = 1062. The backend always recalculates the total."
+          }
+        },
+        {
+          "name": "List quotations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/quotations", "host": ["{{baseUrl}}"], "path": ["quotations"] }
+          }
+        },
+        {
+          "name": "Mark quotation SENT",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"SENT\"\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/quotations/{{quotationId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["quotations", "{{quotationId}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Mark quotation ACCEPTED",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"ACCEPTED\"\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/quotations/{{quotationId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["quotations", "{{quotationId}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Convert quotation to sales order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.id) { pm.collectionVariables.set('salesOrderId', res.data.id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/quotations/{{quotationId}}/convert",
+              "host": ["{{baseUrl}}"],
+              "path": ["quotations", "{{quotationId}}", "convert"]
+            },
+            "description": "400 unless the quotation is ACCEPTED. 409 if already converted."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sales Orders",
+      "item": [
+        {
+          "name": "List sales orders",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/sales-orders", "host": ["{{baseUrl}}"], "path": ["sales-orders"] }
+          }
+        },
+        {
+          "name": "Confirm order - reserves stock (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/sales-orders/{{salesOrderId}}/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["sales-orders", "{{salesOrderId}}", "confirm"]
+            },
+            "description": "Transaction: checks available = physical - reserved, then increases reserved only."
+          }
+        },
+        {
+          "name": "Dispatch order (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicleNo\": \"MH12AB1234\",\n  \"driverName\": \"Ramesh Yadav\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/sales-orders/{{salesOrderId}}/dispatch",
+              "host": ["{{baseUrl}}"],
+              "path": ["sales-orders", "{{salesOrderId}}", "dispatch"]
+            },
+            "description": "Only CONFIRMED orders. Reduces both physical and reserved quantity."
+          }
+        },
+        {
+          "name": "Cancel order (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/sales-orders/{{salesOrderId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["sales-orders", "{{salesOrderId}}", "cancel"]
+            },
+            "description": "Releases reserved stock if the order was CONFIRMED. A DISPATCHED order cannot be cancelled."
+          }
+        }
+      ]
+    }
+  ]
+}
